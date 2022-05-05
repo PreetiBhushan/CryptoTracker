@@ -16,13 +16,12 @@ form.addEventListener('submit',(e)=>{
 });
 
 const fetchPrice = async(ctype) =>{
-    const r = await axios.get(`https://api.cryptonator.com/api/ticker/${ctype}`);
-    console.log(r.data.ticker.price);
-    showPrice(r.data.ticker,r.data.timestamp);
-     rec = setTimeout(() => fetchPrice(`https://api.cryptonator.com/api/ticker/${ctype}`), 10000);
-}
+    const r = await axios.get(`https://api.coinstats.app/public/v1/coins/${ctype}?currency=INR`);
+    console.log(r.data.coin.price);
+    
 
-function timeConverter(UNIX_timestamp){
+
+/*function timeConverter(UNIX_timestamp){
     var a = new Date(UNIX_timestamp * 1000);
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     var year = a.getFullYear();
@@ -33,15 +32,15 @@ function timeConverter(UNIX_timestamp){
     var sec = a.getSeconds();
     var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
     return time;
-  }
+  }*/
 
-const showPrice = (ticker,timestamp)=>{
-    const time = timeConverter(timestamp);
-    const price = ticker.price;
-    const vol = ticker.volume;
-    const change = ticker.change;
-    const coin = ticker.base;
-    const curr = ticker.target;
+/*const showPrice = (ticker,timestamp)=>{
+    const time = timeConverter(timestamp);*/
+    const price = r.data.coin.price;
+    const vol = r.data.coin.volume;
+    const change = r.data.coin.priceChange1d;
+    const coin = r.data.coin.name;
+    const curr = 'INR';
     var col= "green";
     if(change<0){
         col = "red";
@@ -59,15 +58,16 @@ const showPrice = (ticker,timestamp)=>{
     <td style="color:${col};"><span style="font-size: 1.3em;">${price}</span> ${curr}</td>
 </tr>
 <tr>
-    <td>Volume (24hrs)</td>
+    <td>${price}${curr}</td>
+</tr>
+
+<tr>
+    <td>Volume</td>
     <td>${vol}</td>
 </tr>
 <tr>
-    <td>Change (24hrs)</td>
+    <td>Change</td>
     <td style="color:${col};">${change} ${curr}</td>
-</tr>
-<tr>
-    <td>Last Update</td>
-    <td>${time}</td>
-</tr>`;
+</tr>`
+rec = setTimeout(()=>fetchPrice(ctype),10000);
 };
