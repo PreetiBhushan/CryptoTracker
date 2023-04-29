@@ -57,9 +57,7 @@ const fetchPrice = async(ctype) =>{
     <td>${coin}</td>
     <td style="color:${col};"><span style="font-size: 1.3em;">${price}</span> ${curr}</td>
 </tr>
-<tr>
-    <td>${price}${curr}</td>
-</tr>
+
 
 <tr>
     <td>Volume</td>
